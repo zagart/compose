@@ -1,6 +1,9 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -51,19 +54,30 @@ android {
 
 dependencies {
 
+    //Compilation
+    ksp(libs.hilt.android.compiler)
+    ksp(libs.room.compiler)
+
     //Main dependencies
-    implementation(platform(libs.compose.bom))
     implementation(libs.activity.compose)
+    implementation(libs.androidx.junit.ktx)
     implementation(libs.core.ktx)
-    implementation(libs.material3)
+    implementation(libs.hilt.android)
+    implementation(libs.lifecycle.runtime.compose)
     implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.material3)
+    implementation(libs.material.icons.extended)
+    implementation(libs.navigation.compose)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.kotlinx.serialization)
+    implementation(libs.retrofit.converter.scalars)
+    implementation(libs.room)
+    implementation(libs.serialization.json)
+    implementation(libs.test.core.ktx)
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
-
-    //Debug
-    debugImplementation(libs.ui.tooling)
-    debugImplementation(libs.ui.test.manifest)
+    implementation(platform(libs.compose.bom))
 
     //Testing
     androidTestImplementation(platform(libs.compose.bom))
@@ -71,4 +85,9 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ui.test.junit4)
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    //Debug
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
 }
