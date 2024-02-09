@@ -1,14 +1,15 @@
 package com.zagart.compose.presentation
 
+import kotlin.reflect.KClass
+
 sealed interface Event
-typealias Subscriber = (Event) -> Unit
 
 class EventBus {
 
     private val subscriptions =
-        mutableMapOf<Event, MutableSet<Subscriber>>()
+        mutableMapOf<KClass<out Event>, MutableSet<Any>>()
 
-    fun subscribeOn(event: Event, subscriber: Subscriber) {
+    fun <T : Event> subscribeOn(event: KClass<T>, subscriber: (T) -> Unit) {
         if (subscriptions.containsKey(event)) {
             subscriptions.getValue(event).add(subscriber)
         } else {
@@ -16,10 +17,11 @@ class EventBus {
         }
     }
 
-    fun dispatchEvent(event: Event) {
-        if (subscriptions.containsKey(event)) {
-            subscriptions.getValue(event).forEach { subscriber ->
-                subscriber(event)
+    @Suppress("UNCHECKED_CAST") //EventBus implementation guarantees cast safety
+    fun <T : Event> dispatchEvent(event: T) {
+        if (subscriptions.containsKey(event::class)) {
+            subscriptions.getValue(event::class).forEach { subscriber ->
+                (subscriber as (T) -> Unit).invoke(event)
             }
         }
     }

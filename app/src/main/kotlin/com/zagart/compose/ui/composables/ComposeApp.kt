@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import com.zagart.compose.LocalEventBus
 import com.zagart.compose.data.entities.ComposeItem
-import com.zagart.compose.presentation.EventBus
 import com.zagart.compose.presentation.Failure
 import com.zagart.compose.presentation.HomeState
 import com.zagart.compose.presentation.Loading
@@ -20,9 +20,10 @@ import com.zagart.compose.ui.composables.screens.LoadingScreen
 import com.zagart.compose.ui.theme.ComposeTheme
 
 @Composable
-fun ComposeApp(homeState: State<HomeState>, eventBus: EventBus) {
+fun ComposeApp(homeState: State<HomeState>) {
     ComposeTheme {
         var itemPressed by rememberSaveable { mutableStateOf<ComposeItem?>(null) }
+        val eventBus = LocalEventBus.current
 
         when (val currentHomeState = homeState.value) {
             is Failure -> FailureScreen()

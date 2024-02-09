@@ -4,10 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.zagart.compose.presentation.EventBus
 import com.zagart.compose.presentation.HomeViewModel
 import com.zagart.compose.ui.composables.ComposeApp
 import dagger.hilt.android.AndroidEntryPoint
+
+
+val LocalEventBus = staticCompositionLocalOf { EventBus() }
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -18,10 +24,11 @@ class MainActivity : ComponentActivity() {
         val homeViewModel by viewModels<HomeViewModel>()
 
         setContent {
-            ComposeApp(
-                homeState = homeViewModel.state.collectAsStateWithLifecycle(),
-                eventBus = homeViewModel.eventBus
-            )
+            CompositionLocalProvider(LocalEventBus provides homeViewModel.eventBus) {
+                ComposeApp(
+                    homeState = homeViewModel.state.collectAsStateWithLifecycle()
+                )
+            }
         }
     }
 }

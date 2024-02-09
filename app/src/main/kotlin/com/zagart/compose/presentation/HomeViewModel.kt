@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         update()
-        eventBus.subscribeOn(OnBackPressedDetailsScreen) {
+        eventBus.subscribeOn(OnBackPressedDetailsScreen::class) {
             update()
         }
     }
