@@ -12,8 +12,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+data object OnBackPressedDetailsScreen : Event
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    val eventBus: ComposeEventBus,
     private val repository: ComposeItemRepository
 ) : ViewModel() {
 
@@ -22,10 +25,9 @@ class HomeViewModel @Inject constructor(
 
     init {
         update()
-    }
-
-    fun requestUpdate() {
-        update()
+        eventBus.subscribeOn(OnBackPressedDetailsScreen) {
+            update()
+        }
     }
 
     private fun update() {
@@ -34,6 +36,10 @@ class HomeViewModel @Inject constructor(
                 _state.value = Success(it.getOrThrow())
             }
         }
+    }
+
+    override fun onCleared() {
+        eventBus.clear()
     }
 }
 

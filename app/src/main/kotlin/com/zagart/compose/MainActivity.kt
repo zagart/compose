@@ -20,9 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeApp(
                 homeState = homeViewModel.state.collectAsStateWithLifecycle(),
-                onUpdateRequested = {
-                    homeViewModel.requestUpdate()
-                }
+                eventBus = homeViewModel.eventBus
             )
         }
     }

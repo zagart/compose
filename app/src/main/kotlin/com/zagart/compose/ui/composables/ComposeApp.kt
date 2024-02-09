@@ -7,9 +7,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.zagart.compose.data.entities.ComposeItem
+import com.zagart.compose.presentation.ComposeEventBus
+import com.zagart.compose.presentation.Event
 import com.zagart.compose.presentation.Failure
 import com.zagart.compose.presentation.HomeState
 import com.zagart.compose.presentation.Loading
+import com.zagart.compose.presentation.OnBackPressedDetailsScreen
 import com.zagart.compose.presentation.Success
 import com.zagart.compose.ui.composables.screens.DetailsScreen
 import com.zagart.compose.ui.composables.screens.FailureScreen
@@ -18,7 +21,7 @@ import com.zagart.compose.ui.composables.screens.LoadingScreen
 import com.zagart.compose.ui.theme.ComposeTheme
 
 @Composable
-fun ComposeApp(homeState: State<HomeState>, onUpdateRequested: () -> Unit) {
+fun ComposeApp(homeState: State<HomeState>, eventBus: ComposeEventBus) {
     ComposeTheme {
         var itemPressed by rememberSaveable { mutableStateOf<ComposeItem?>(null) }
 
@@ -29,7 +32,7 @@ fun ComposeApp(homeState: State<HomeState>, onUpdateRequested: () -> Unit) {
                 if (itemPressed is ComposeItem) {
                     DetailsScreen(itemPressed!!) {
                         itemPressed = null
-                        onUpdateRequested()
+                        eventBus.dispatchEvent(OnBackPressedDetailsScreen)
                     }
                 } else {
                     HomeScreen(currentHomeState) {
