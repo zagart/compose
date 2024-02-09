@@ -1,5 +1,6 @@
 package com.zagart.compose.ui.composables.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,10 +15,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.zagart.compose.data.entities.ComposeItem
 import com.zagart.compose.presentation.Success
 
 @Composable
-fun HomeScreen(currentHomeState: Success) {
+fun HomeScreen(currentHomeState: Success, onItemPressed: (ComposeItem) -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -29,7 +31,7 @@ fun HomeScreen(currentHomeState: Success) {
                         modifier = Modifier
                             .wrapContentSize()
                             .padding(8.dp),
-                        text = "Hello, world!",
+                        text = "State ID: ${currentHomeState.hashCode()}",
                         style = MaterialTheme.typography.displaySmall
                     )
                     LazyColumn {
@@ -37,8 +39,8 @@ fun HomeScreen(currentHomeState: Success) {
                             Text(
                                 modifier = Modifier
                                     .wrapContentSize()
-                                    .padding(8.dp),
-                                text = "New item: $item",
+                                    .padding(8.dp).clickable { onItemPressed(item) },
+                                text = "New item: ${item.name}",
                                 style = MaterialTheme.typography.labelMedium
                             )
                         }

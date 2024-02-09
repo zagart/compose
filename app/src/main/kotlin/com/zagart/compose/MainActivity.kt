@@ -7,16 +7,23 @@ import androidx.activity.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.zagart.compose.presentation.HomeViewModel
 import com.zagart.compose.ui.composables.ComposeApp
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private val homeViewModel by viewModels<HomeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val homeViewModel by viewModels<HomeViewModel>()
+
         setContent {
-            ComposeApp(homeViewModel.state.collectAsStateWithLifecycle())
+            ComposeApp(
+                homeState = homeViewModel.state.collectAsStateWithLifecycle(),
+                onUpdateRequested = {
+                    homeViewModel.requestUpdate()
+                }
+            )
         }
     }
 }
