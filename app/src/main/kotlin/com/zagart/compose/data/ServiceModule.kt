@@ -1,6 +1,6 @@
 package com.zagart.compose.data
 
-import com.zagart.compose.presentation.ComposeEventBus
+import com.zagart.compose.presentation.EventBus
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +21,7 @@ object ServiceModule {
     }
 
     @Provides
-    fun composeEventBus(): ComposeEventBus {
-        return ComposeEventBus()
+    fun composeEventBus(): EventBus {
+        return EventBus()
     }
 }

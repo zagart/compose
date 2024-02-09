@@ -16,7 +16,7 @@ data object OnBackPressedDetailsScreen : Event
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    val eventBus: ComposeEventBus,
+    val eventBus: EventBus,
     private val repository: ComposeItemRepository
 ) : ViewModel() {
 

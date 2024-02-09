@@ -3,7 +3,7 @@ package com.zagart.compose.presentation
 sealed interface Event
 typealias Subscriber = (Event) -> Unit
 
-class ComposeEventBus {
+class EventBus {
 
     private val subscriptions =
         mutableMapOf<Event, MutableSet<Subscriber>>()
