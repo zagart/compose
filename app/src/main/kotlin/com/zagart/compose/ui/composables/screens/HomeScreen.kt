@@ -17,29 +17,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.zagart.compose.data.entities.ComposeItem
 import com.zagart.compose.presentation.Success
+import com.zagart.compose.ui.composables.screens.library.TopBar
 
 @Composable
-fun HomeScreen(currentHomeState: Success, onItemPressed: (ComposeItem) -> Unit) {
+fun HomeScreen(state: Success, onItemPressed: (ComposeItem) -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Scaffold {
+        Scaffold(topBar = { TopBar(title = "Home") }) {
             Box(modifier = Modifier.padding(it)) {
                 Column {
                     Text(
                         modifier = Modifier
                             .wrapContentSize()
                             .padding(8.dp),
-                        text = "State ID: ${currentHomeState.hashCode()}",
+                        text = "State ID: ${state.hashCode()}",
                         style = MaterialTheme.typography.displaySmall
                     )
                     LazyColumn {
-                        items(currentHomeState.items) { item ->
+                        items(state.items) { item ->
                             Text(
                                 modifier = Modifier
                                     .wrapContentSize()
-                                    .padding(8.dp).clickable { onItemPressed(item) },
+                                    .padding(8.dp)
+                                    .clickable { onItemPressed(item) },
                                 text = "New item: ${item.name}",
                                 style = MaterialTheme.typography.labelMedium
                             )

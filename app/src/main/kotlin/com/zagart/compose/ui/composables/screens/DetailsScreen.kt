@@ -1,23 +1,17 @@
 package com.zagart.compose.ui.composables.screens
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.zagart.compose.data.entities.ComposeItem
+import com.zagart.compose.ui.composables.screens.library.TopBar
 
 @Preview
 @Composable
@@ -26,20 +20,7 @@ fun DetailsScreen(item: ComposeItem = ComposeItem(id = "0"), onBackPressed: () -
     Surface {
         Scaffold(
             topBar = {
-                Box(
-                    modifier = Modifier
-                        .sizeIn(minHeight = 64.dp)
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.primary)
-                ) {
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = "Details",
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        style = MaterialTheme.typography.headlineMedium,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                TopBar(title = "Details")
             }
         ) { scaffoldPadding ->
             Box(modifier = Modifier.padding(scaffoldPadding)) {
